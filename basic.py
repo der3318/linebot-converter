@@ -1,3 +1,5 @@
+# -*- coding: UTF-8 -*-
+
 from enum import Enum
 
 class TermFrequency():
@@ -31,10 +33,13 @@ class TermFrequency():
         return self.rankingMap[token]
 
 class TokenType(Enum):
-    EOS = 0
-    UNKNOWN = 1
-    NONGRAMCOUNT = 2
-    GRAM = 3
+
+    RESERVED = 0
+    BOS = 1
+    EOS = 2
+    UNKNOWN = 3
+    NONGRAMCOUNT = 4
+    GRAM = 5
 
 class Gram():
 
@@ -44,19 +49,23 @@ class Gram():
         self.token = token
 
     def __repr__(self):
+        if self.tokenType == TokenType.BOS:
+            return "<BOS>"
         if self.tokenType == TokenType.EOS:
             return "<EOS>"
         if self.tokenType == TokenType.UNKNOWN:
             return "<UNKNOWN>"
-        if self.tokenType == TokenType.NONGRAMCOUNT:
+        if self.tokenType == TokenType.RESERVED or self.tokenType == TokenType.NONGRAMCOUNT:
             raise Exception("Unexpcted Behavior")
         return self.token
 
 class Dictionary():
 
-    def __init__(self, tokenList, maxSize = 5000):
-        self.EOS = Gram(TokenType.EOS, TokenType.EOS)
-        self.UNKNOWN = Gram(TokenType.UNKNOWN, TokenType.UNKNOWN)
+    BOS = Gram(TokenType.BOS, TokenType.BOS.value)
+    EOS = Gram(TokenType.EOS, TokenType.EOS.value)
+    UNKNOWN = Gram(TokenType.UNKNOWN, TokenType.UNKNOWN.value)
+
+    def __init__(self, tokenList, maxSize = 2500):
         self.mapping = dict()
         termFrequency = TermFrequency(tokenList)
         for token in tokenList:
@@ -65,16 +74,39 @@ class Dictionary():
             if indexToApply >= maxSize:
                 continue
             self.mapping[token] = Gram(TokenType.GRAM, indexToApply, token)
-        self.size = len(self.mapping) + TokenType.NONGRAMCOUNT.value
+            self.mapping[indexToApply] = Gram(TokenType.GRAM, indexToApply, token)
+        self.size = len(self.mapping) // 2 + TokenType.NONGRAMCOUNT.value
 
     def convertTokenToGram(self, token):
         if token in self.mapping:
             return self.mapping[token]
-        return self.UNKNOWN
+        return Dictionary.UNKNOWN
+
+    def convertIndexToGram(self, index):
+        if index == Dictionary.BOS.index:
+            return Dictionary.BOS
+        if index == Dictionary.EOS.index:
+            return Dictionary.EOS
+        if index == Dictionary.UNKNOWN.index:
+            return Dictionary.UNKNOWN
+        if index in self.mapping:
+            return self.mapping[index]
+        return Dictionary.UNKNOWN
 
 class Sentence():
 
     def __init__(self):
-        self.length = 0
         self.gramList = list()
+
+    def __repr__(self):
+        output = ""
+        for gram in self.gramList:
+            output += str(gram)
+        return output
+
+    def addGram(self, gram):
+        self.gramList.append(gram)
+
+    def length(self):
+        return len(self.gramList)
 
