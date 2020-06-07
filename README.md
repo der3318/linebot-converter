@@ -30,7 +30,11 @@
 
 
 ### 🖱 2. 安裝 WSL 作為開發和部署環境
-至[微軟商店](https://www.microsoft.com/store/productId/9NBLGGH4MSV6)下載「Ubuntu」，安裝完成後可能需要重啟電腦，之後可於開始功能表中搜尋「Ubuntu」啟動該應用。透過 WSL 的好處在於能夠完全將開發環境獨立出來，並可在專案捨棄或完成後，透過移除「Ubuntu」來完全刪除相關的資料。啟動並完成使用者建置後，於命令提示介面依序完成下列指令：
+至[微軟商店](https://www.microsoft.com/store/productId/9NBLGGH4MSV6)下載「Ubuntu」，安裝完成後可能需要重啟電腦，之後可於開始功能表中搜尋「Ubuntu」啟動該應用。
+
+![Imgur](https://i.imgur.com/8nulvBE.png)
+
+透過 WSL 的好處在於能夠完全將開發環境獨立出來，並可在專案捨棄或完成後，透過移除「Ubuntu」來完全刪除相關的資料。啟動並完成使用者建置後，於命令提示介面依序完成下列指令：
 
 |指令|簡介|
 |:-|:-|
@@ -62,7 +66,7 @@
 
 
 ### 🌐 伺服器設定
-絕大部分的電腦都不會擁有實體 IP，而是位於分享器或數據機的內網內。先關閉防火牆，並以指令「ip route | grep default」來查詢分享器的 IP，接著透過瀏覽器連接該 IP（http://查詢到的分享器位址）、輸入帳號密碼登入主控。若沒有設登入調整的印象，估計可能還是原廠的設定，可上網查詢廠牌的預設帳號密碼。
+絕大部分的電腦都不會擁有實體 IP，而是位於分享器或數據機的內網內。先關閉防火牆，並以指令「ip route | grep default」來查詢分享器的 IP，接著透過瀏覽器連接該 IP，即 http://查詢到的分享器位址 輸入帳號密碼登入主控。若沒有設登入調整的印象，估計可能還是原廠的設定，可上網查詢廠牌的預設帳號密碼。
 
 ![Imgur](https://i.imgur.com/covoffG.png)
 
@@ -74,7 +78,7 @@
 
 ![Imgur](https://i.imgur.com/NnQjJ2N.png)
 
-可透過指令「sudo env/bin/python validation.py」來啟動路由，並在瀏覽器中以「http://剛剛註冊的網域」來測試使否能成功連線。理論上能夠看到「The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.」等訊息出現。
+可透過指令「sudo env/bin/python validation.py」來啟動路由，並在瀏覽器中以 http://剛剛註冊的網域 來測試使否能成功連線。理論上能夠看到「The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.」等訊息出現。
 
 
 ### 🔐 金鑰與 SSL 憑證
@@ -95,7 +99,7 @@
 
 ![Imgur](https://i.imgur.com/5pKN2WF.png)
 
-啟動路由後，如上圖所示，將「Webhook URL」設定為「https://註冊並認證後的網域/webhook」並啟用，且到「Auto Reply Messages」點選「Edit」，依照上圖勾選相關設定。
+啟動路由後，如上圖所示，將「Webhook URL」設定為 https://註冊並認證後的網域/webhook 並啟用，且到「Auto Reply Messages」點選「Edit」，依照上圖勾選相關設定。
 
 上架的步驟至此全數完成，將機器人加為好友後即可開啟對話，它應能根據學習的結果給出對應的回覆！
 
