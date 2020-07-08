@@ -27,7 +27,7 @@ class HistoryReader():
                     continue
                 if re.match("^\[.+\]", message):
                     continue
-                # reaplce invalid symbols and combine spaces
+                # repalce invalid symbols and combine spaces
                 for punc in string.punctuation:
                     message = message.replace(punc, " ")
                 message = re.sub("\s+", " ", message).strip()
